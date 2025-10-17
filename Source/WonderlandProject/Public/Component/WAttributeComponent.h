@@ -17,14 +17,22 @@ public:
 	float GetHealthPercent();
 	float GetStaminaPercent();
 	void ReceiveDamage(float InDamage);
-	void DecreaseStamina(float InDecreaseStamina);
-	void IncreaseStamina(float InIncreaseStamina);
+	void IncreaseStaminaAtOnce(float InIncreaseStamina);
+	void DecreaseStaminaAtOnce(float InDecreaseStamina);
+	//void DecreaseStaminaSmooth(float InDecreaseStamina, float InDuration);
+	//void DecreaseStaminaStep();
 	bool IsAlive();
+	bool IsEnergetic();
+	bool IsRecoverStamina();
 
 protected:
 	virtual void BeginPlay() override;
 
 private:
+	//FTimerHandle StaminaDecreaseHandle;
+	//float StaminaDecreasePerTick;
+	//float StaminaGoal;
+
 	UPROPERTY(EditAnywhere, Category = "Actor Attributes")
 	float CurrentHealth;
 

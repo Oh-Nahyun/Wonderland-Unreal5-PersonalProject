@@ -10,10 +10,10 @@ void UWAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
 
-	PlayerCharacter = Cast<AWPlayerCharacter>(TryGetPawnOwner());
-	if (PlayerCharacter)
+	AnimPlayerCharacter = Cast<AWPlayerCharacter>(TryGetPawnOwner());
+	if (AnimPlayerCharacter)
 	{
-		PlayerCharacterMovement = PlayerCharacter->GetCharacterMovement();
+		PlayerCharacterMovement = AnimPlayerCharacter->GetCharacterMovement();
 	}
 }
 
@@ -23,8 +23,9 @@ void UWAnimInstance::NativeUpdateAnimation(float DeltaTime)
 
 	if (PlayerCharacterMovement)
 	{
+		bIsPlayerAlive = AnimPlayerCharacter->GetCharacterAlive();
 		PlayerCharacterSpeed = UKismetMathLibrary::VSizeXY(PlayerCharacterMovement->Velocity);
-		bIsFalling = PlayerCharacterMovement->IsFalling();
-		CharacterState = PlayerCharacter->GetCharacterState();
+		bIsPlayerFalling = PlayerCharacterMovement->IsFalling();
+		PlayerCharacterState = AnimPlayerCharacter->GetCharacterState();
 	}
 }

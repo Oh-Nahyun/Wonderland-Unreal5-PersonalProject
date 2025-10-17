@@ -26,7 +26,7 @@ public:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent,
 							 class AController* EventInstigator, AActor* DamageCanser) override;
 
-	UPROPERTY(BlueprintReadOnly, Category = State)
+	UPROPERTY(BlueprintReadWrite, Category = State)
 	bool bIsRunMode = false;
 
 	UPROPERTY(EditDefaultsOnly, Category = Montage)
@@ -41,6 +41,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetWeaponCollisionEnabled(ECollisionEnabled::Type InCollisionEnabled);
 
+	UFUNCTION(BlueprintCallable)
+	void SetAfterPlayerDie();
+
 	float GetWeaponSocketSpeed() const;
 	FVector GetWeaponForceDirection() const;
 
@@ -48,7 +51,6 @@ protected:
 	virtual void BeginPlay() override;
 	void DecreaseStamina(float InDecreaseStamineAmount);
 	void IncreaseStamina(float InIncreaseStamineAmount);
-	void Die();
 
 	// Action Functions
 	void LeftShiftPressed();
@@ -79,6 +81,15 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Components)
 	UWAttributeComponent* Attribute;
 
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	bool bIsAlive = true;
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	bool bIsEnergetic = true;
+
+	UFUNCTION(BlueprintCallable)
+	void BlackOut();
+
 	UPROPERTY(VisibleAnywhere, Category = Components)
 	UWMinimapComponent* MinimapComponent;
 
@@ -88,14 +99,16 @@ private:
 	UPROPERTY(EditAnywhere, Category = Widgets)
 	UWPlayerInfoHUD* PlayerInfoHUD;
 
-	float RunDecreaseStamina = 1.0f;
+	float NormalIncreaseStamina = 0.1f;
+	float RunDecreaseStamina = 0.1f;
 	float PunchAttackDecreaseStamina = 5.0f;
 	float ToyHammerAttackDecreaseStamina = 10.0f;
 
 	bool bCanIncreaseStamina = true;
-	float NormalIncreaseStamina = 1.0f;
+	bool bCanDecreaseStamina = false;
 
 public:
 	FORCEINLINE void SetOverlappingItem(AWItem* InItem) { OverlappingItem = InItem; }
+	FORCEINLINE bool GetCharacterAlive() const { return bIsAlive; }
 	FORCEINLINE ECharacterState GetCharacterState() const { return CharacterState; }
 };

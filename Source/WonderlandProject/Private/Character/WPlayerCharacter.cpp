@@ -49,9 +49,14 @@ void AWPlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (bCanIncreaseStamina)
+	if (!bIsEnergetic || bCanIncreaseStamina)
 	{
 		IncreaseStamina(NormalIncreaseStamina);
+	}
+
+	if (bCanDecreaseStamina)
+	{
+		DecreaseStamina(RunDecreaseStamina);
 	}
 }
 
@@ -88,66 +93,95 @@ float AWPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 	{
 		Attribute->ReceiveDamage(DamageAmount);
 		PlayerInfoHUD->SetHealthBar(Attribute->GetHealthPercent());
-
-		if (!Attribute->IsAlive())
-		{
-			Die();
-		}
+		bIsAlive = Attribute->IsAlive();
 	}
 	return DamageAmount;
 }
 
-void AWPlayerCharacter::Die() /////////////////////////
+void AWPlayerCharacter::SetAfterPlayerDie()
 {
+	UE_LOG(LogTemp, Warning, TEXT("[Player] Die")); /////////////////////////
 }
 
-void AWPlayerCharacter::DecreaseStamina(float InDecreaseStamineAmount) /////////////////////////
+void AWPlayerCharacter::DecreaseStamina(float InDecreaseStamineAmount)
 {
 	if (Attribute)
 	{
-		Attribute->DecreaseStamina(InDecreaseStamineAmount);
+		if (bIsEnergetic)
+		{
+			bIsEnergetic = Attribute->IsEnergetic();
+		}
+		Attribute->DecreaseStaminaAtOnce(InDecreaseStamineAmount);
 		PlayerInfoHUD->SetStaminaBar(Attribute->GetStaminaPercent());
 	}
 }
 
-void AWPlayerCharacter::IncreaseStamina(float InIncreaseStamineAmount) /////////////////////////
+void AWPlayerCharacter::IncreaseStamina(float InIncreaseStamineAmount)
 {
 	if (Attribute)
 	{
-		Attribute->IncreaseStamina(InIncreaseStamineAmount);
+		if (!bIsEnergetic)
+		{
+			bIsEnergetic = Attribute->IsRecoverStamina();
+		}
+		Attribute->IncreaseStaminaAtOnce(InIncreaseStamineAmount);
 		PlayerInfoHUD->SetStaminaBar(Attribute->GetStaminaPercent());
 	}
 }
 
 void AWPlayerCharacter::LeftShiftPressed()
 {
+	if (!bIsEnergetic)
+	{
+		return;
+	}
+
 	bIsRunMode = true;
-	bCanIncreaseStamina = false;
+	if (bCanIncreaseStamina)
+	{
+		bCanIncreaseStamina = false;
+	}
+	if (!bCanDecreaseStamina)
+	{
+		bCanDecreaseStamina = true;
+	}
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	DecreaseStamina(RunDecreaseStamina);
 }
 
 void AWPlayerCharacter::LeftShiftReleased()
 {
+	if (!bIsEnergetic)
+	{
+		return;
+	}
+
 	bIsRunMode = false;
-	bCanIncreaseStamina = true;
+	if (!bCanIncreaseStamina)
+	{
+		bCanIncreaseStamina = true;
+	}
+	if (bCanDecreaseStamina)
+	{
+		bCanDecreaseStamina = false;
+	}
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 }
 
 void AWPlayerCharacter::FKeyPressed()
 {
-	AWToyHammer* OverlappingWeapon = Cast<AWToyHammer>(OverlappingItem); /////
+	AWToyHammer* OverlappingWeapon = Cast<AWToyHammer>(OverlappingItem);
 	if (OverlappingItem)
 	{
 		OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"), this, this);
 		CharacterState = ECharacterState::EquippedToyHammer;
-		EquippedWeapon = OverlappingWeapon; /////
+		EquippedWeapon = OverlappingWeapon;
 	}
 }
 
 void AWPlayerCharacter::MouseLeftButtonPressed()
 {
-	if (ActionState != EActionState::Unoccupied)
+	if (!bIsEnergetic || ActionState != EActionState::Unoccupied)
 	{
 		return;
 	}
@@ -164,7 +198,10 @@ void AWPlayerCharacter::MouseLeftButtonPressed()
 		DecreaseStamina(ToyHammerAttackDecreaseStamina);
 	}
 
-	bCanIncreaseStamina = false;
+	if (bCanIncreaseStamina)
+	{
+		bCanIncreaseStamina = false;
+	}
 	ActionState = EActionState::Attacking;
 }
 
@@ -213,8 +250,28 @@ void AWPlayerCharacter::PlayAttackMontage(UAnimMontage* InMontage, int32 InSelec
 
 void AWPlayerCharacter::AttackEnd()
 {
-	bCanIncreaseStamina = true;
+	if (!bIsRunMode)
+	{
+		bCanIncreaseStamina = true;
+	}
+	else
+	{
+		bCanIncreaseStamina = false;
+	}
 	ActionState = EActionState::Unoccupied;
+}
+
+void AWPlayerCharacter::BlackOut()
+{
+	if (bIsEnergetic)
+	{
+		return;
+	}
+
+	bIsRunMode = false;
+	bCanIncreaseStamina = true;
+	bCanDecreaseStamina = false;
+	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 }
 
 void AWPlayerCharacter::MoveForward(float InValue)

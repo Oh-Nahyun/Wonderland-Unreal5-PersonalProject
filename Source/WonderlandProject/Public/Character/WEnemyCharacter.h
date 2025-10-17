@@ -38,10 +38,10 @@ protected:
 private:
 	void PlayHitReactMontage(int32 InSelection);
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = Components)
 	UWAttributeComponent* Attribute;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = Widgets)
 	UWHealthBarComponent* HealthBarWidget;
 
 	UPROPERTY(EditDefaultsOnly, Category = Montage)

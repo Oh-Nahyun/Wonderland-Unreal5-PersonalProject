@@ -19,18 +19,21 @@ public:
 	virtual void NativeInitializeAnimation() override;
 	virtual void NativeUpdateAnimation(float DeltaTime) override;
 
-	UPROPERTY(BlueprintReadOnly)
-	AWPlayerCharacter* PlayerCharacter;
+	UPROPERTY(BlueprintReadOnly, Category = PlayerCharacter)
+	AWPlayerCharacter* AnimPlayerCharacter;
 
-	UPROPERTY(BlueprintReadOnly, Category = Movement)
+	UPROPERTY(BlueprintReadOnly, Category = PlayerCharacter)
 	UCharacterMovementComponent* PlayerCharacterMovement;
 
-	UPROPERTY(BlueprintReadOnly, Category = Movement)
+	UPROPERTY(BlueprintReadOnly, Category = PlayerCharacter)
 	float PlayerCharacterSpeed;
 
-	UPROPERTY(BlueprintReadOnly, Category = Movement)
-	bool bIsFalling;
+	UPROPERTY(BlueprintReadOnly, Category = PlayerCharacter)
+	bool bIsPlayerFalling;
 
-	UPROPERTY(BlueprintReadOnly, Category = CharacterState)
-	ECharacterState CharacterState;
+	UPROPERTY(BlueprintReadOnly, Category = PlayerCharacter)
+	bool bIsPlayerAlive;
+
+	UPROPERTY(BlueprintReadOnly, Category = PlayerCharacter)
+	ECharacterState PlayerCharacterState;
 };

@@ -28,6 +28,13 @@ void AWEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (!Attribute)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Attribute was None! Creating dynamically."));
+		Attribute = NewObject<UWAttributeComponent>(this, UWAttributeComponent::StaticClass(), TEXT("Attributes"));
+		Attribute->RegisterComponent();
+	}
+
 	if (HealthBarWidget)
 	{
 		HealthBarWidget->SetVisibility(false);
@@ -124,9 +131,9 @@ void AWEnemyCharacter::DirectionalHitReact(const FVector& ImpactPoint)
 		DeathPoseNumber = 3;
 	}
 
-	UKismetSystemLibrary::DrawDebugArrow(this, GetActorLocation(), GetActorLocation() + CrossProduct * 100.f, 5.f, FColor::Blue, 5.f);
-	UKismetSystemLibrary::DrawDebugArrow(this, GetActorLocation(), GetActorLocation() + Forward * 60.f, 5.f, FColor::Red, 5.f);
-	UKismetSystemLibrary::DrawDebugArrow(this, GetActorLocation(), GetActorLocation() + ToHit * 60.f, 5.f, FColor::Green, 5.f);
+	//UKismetSystemLibrary::DrawDebugArrow(this, GetActorLocation(), GetActorLocation() + CrossProduct * 100.f, 5.f, FColor::Blue, 5.f);
+	//UKismetSystemLibrary::DrawDebugArrow(this, GetActorLocation(), GetActorLocation() + Forward * 60.f, 5.f, FColor::Red, 5.f);
+	//UKismetSystemLibrary::DrawDebugArrow(this, GetActorLocation(), GetActorLocation() + ToHit * 60.f, 5.f, FColor::Green, 5.f);
 }
 
 void AWEnemyCharacter::PlayHitReactMontage(int32 InSelection)

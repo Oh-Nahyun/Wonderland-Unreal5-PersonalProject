@@ -68,8 +68,8 @@ void AWToyHammer::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 	}
 
 	FHitResult BoxHit;
-	UKismetSystemLibrary::BoxTraceSingle(this, Start, End, FVector(5.f, 5.f, 5.f), BoxTraceStart->GetComponentRotation(),
-										 ETraceTypeQuery::TraceTypeQuery1, false, ActorsToIgnore, EDrawDebugTrace::ForDuration, BoxHit, true);
+	UKismetSystemLibrary::BoxTraceSingle(this, Start, End, FVector(20.f, 20.f, 50.f), BoxTraceStart->GetComponentRotation(),
+										 ETraceTypeQuery::TraceTypeQuery1, false, ActorsToIgnore, EDrawDebugTrace::None, BoxHit, true);
 
 	if (BoxHit.GetActor())
 	{

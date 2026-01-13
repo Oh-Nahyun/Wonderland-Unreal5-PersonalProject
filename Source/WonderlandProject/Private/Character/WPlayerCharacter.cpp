@@ -3,6 +3,7 @@
 
 #include "Character/WPlayerCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/PlayerController.h" /////
 #include "Components/BoxComponent.h"
 #include "Component/WAttributeComponent.h"
 #include "Component/WMinimapComponent.h"
@@ -42,6 +43,14 @@ void AWPlayerCharacter::BeginPlay()
 		{
 			PlayerInfoHUD->AddToViewport();
 		}
+
+		APlayerController* PlayerController = Cast<APlayerController>(GetController());
+		if (PlayerController)
+		{
+			FInputModeGameOnly InputMode;
+			PlayerController->SetInputMode(InputMode);
+			PlayerController->bShowMouseCursor = false;
+		}
 	}
 }
 
@@ -79,6 +88,8 @@ void AWPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction(FName("Run"), IE_Released, this, &AWPlayerCharacter::LeftShiftReleased);
 	PlayerInputComponent->BindAction(FName("Equip"), IE_Pressed, this, &AWPlayerCharacter::FKeyPressed);
 	PlayerInputComponent->BindAction(FName("Attack"), IE_Pressed, this, &AWPlayerCharacter::MouseLeftButtonPressed);
+	PlayerInputComponent->BindAction(FName("Interaction"), IE_Pressed, this, &AWPlayerCharacter::EKeyPressed);
+	PlayerInputComponent->BindAction(FName("Interaction"), IE_Released, this, &AWPlayerCharacter::EKeyReleased);
 
 	// Axis Mapping
 	PlayerInputComponent->BindAxis(FName("MoveForward"), this, &AWPlayerCharacter::MoveForward);
@@ -203,6 +214,16 @@ void AWPlayerCharacter::MouseLeftButtonPressed()
 		bCanIncreaseStamina = false;
 	}
 	ActionState = EActionState::Attacking;
+}
+
+void AWPlayerCharacter::EKeyPressed()
+{
+	bCanInteraction = true;
+}
+
+void AWPlayerCharacter::EKeyReleased()
+{
+	bCanInteraction = false;
 }
 
 float AWPlayerCharacter::GetWeaponSocketSpeed() const

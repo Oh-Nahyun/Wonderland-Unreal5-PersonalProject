@@ -57,6 +57,8 @@ protected:
 	void LeftShiftReleased();
 	void FKeyPressed();
 	void MouseLeftButtonPressed();
+	void EKeyPressed();
+	void EKeyReleased();
 
 	// Axis Functions
 	void MoveForward(float InValue);
@@ -96,7 +98,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = Widgets)
 	TSubclassOf<UWPlayerInfoHUD> PlayerInfoWidgetClass;
 
-	UPROPERTY(EditAnywhere, Category = Widgets)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Widgets, meta = (AllowPrivateAccess = "true"))
 	UWPlayerInfoHUD* PlayerInfoHUD;
 
 	float NormalIncreaseStamina = 0.1f;
@@ -106,6 +108,9 @@ private:
 
 	bool bCanIncreaseStamina = true;
 	bool bCanDecreaseStamina = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	bool bCanInteraction = false;
 
 public:
 	FORCEINLINE void SetOverlappingItem(AWItem* InItem) { OverlappingItem = InItem; }

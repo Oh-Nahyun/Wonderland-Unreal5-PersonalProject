@@ -85,7 +85,12 @@ void AWEnemyCharacter::GetHit(const FVector& ImpactPoint) // _Implementation
 	}
 
 	DirectionalHitReact(ImpactPoint);
-	if (Attribute && Attribute->IsAlive())
+	if (!Attribute)
+	{
+		return;
+	}
+
+	if (Attribute->IsAlive())
 	{
 		PlayHitReactMontage(HitPoseNumber);
 	}

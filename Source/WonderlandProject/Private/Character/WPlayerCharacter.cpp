@@ -111,7 +111,8 @@ float AWPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 
 void AWPlayerCharacter::SetAfterPlayerDie()
 {
-	UE_LOG(LogTemp, Warning, TEXT("[Player] Die")); /////////////////////////
+	// UE_LOG(LogTemp, Warning, TEXT("[Player] Die"));
+	bIsAlive = false;
 }
 
 void AWPlayerCharacter::DecreaseStamina(float InDecreaseStamineAmount)
@@ -142,7 +143,7 @@ void AWPlayerCharacter::IncreaseStamina(float InIncreaseStamineAmount)
 
 void AWPlayerCharacter::LeftShiftPressed()
 {
-	if (!bIsEnergetic)
+	if (!bIsEnergetic || !bIsAlive)
 	{
 		return;
 	}
@@ -162,7 +163,7 @@ void AWPlayerCharacter::LeftShiftPressed()
 
 void AWPlayerCharacter::LeftShiftReleased()
 {
-	if (!bIsEnergetic)
+	if (!bIsEnergetic || !bIsAlive)
 	{
 		return;
 	}
@@ -181,6 +182,11 @@ void AWPlayerCharacter::LeftShiftReleased()
 
 void AWPlayerCharacter::FKeyPressed()
 {
+	if (!bIsAlive)
+	{
+		return;
+	}
+
 	AWToyHammer* OverlappingWeapon = Cast<AWToyHammer>(OverlappingItem);
 	if (OverlappingItem)
 	{
@@ -192,7 +198,7 @@ void AWPlayerCharacter::FKeyPressed()
 
 void AWPlayerCharacter::MouseLeftButtonPressed()
 {
-	if (!bIsEnergetic || ActionState != EActionState::Unoccupied)
+	if (!bIsEnergetic || !bIsAlive || ActionState != EActionState::Unoccupied)
 	{
 		return;
 	}
@@ -218,12 +224,22 @@ void AWPlayerCharacter::MouseLeftButtonPressed()
 
 void AWPlayerCharacter::EKeyPressed()
 {
-	bCanInteraction = true;
+	if (!bIsAlive)
+	{
+		return;
+	}
+
+	bCanInteraction = true; /////////////////////////
 }
 
 void AWPlayerCharacter::EKeyReleased()
 {
-	bCanInteraction = false;
+	if (!bIsAlive)
+	{
+		return;
+	}
+
+	bCanInteraction = false; /////////////////////////
 }
 
 float AWPlayerCharacter::GetWeaponSocketSpeed() const
@@ -247,6 +263,11 @@ FVector AWPlayerCharacter::GetWeaponForceDirection() const
 
 void AWPlayerCharacter::PlayAttackMontage(UAnimMontage* InMontage, int32 InSelection)
 {
+	if (!bIsAlive)
+	{
+		return;
+	}
+
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if (AnimInstance && InMontage)
 	{
@@ -297,6 +318,11 @@ void AWPlayerCharacter::BlackOut()
 
 void AWPlayerCharacter::MoveForward(float InValue)
 {
+	if (!bIsAlive)
+	{
+		return;
+	}
+
 	if (Controller && (InValue != 0.f))
 	{
 		const FRotator ControlRotation = GetControlRotation();
@@ -308,6 +334,11 @@ void AWPlayerCharacter::MoveForward(float InValue)
 
 void AWPlayerCharacter::MoveRight(float InValue)
 {
+	if (!bIsAlive)
+	{
+		return;
+	}
+
 	if (Controller && (InValue != 0.f))
 	{
 		const FRotator ControlRotation = GetControlRotation();
@@ -319,10 +350,20 @@ void AWPlayerCharacter::MoveRight(float InValue)
 
 void AWPlayerCharacter::Turn(float InValue)
 {
+	if (!bIsAlive)
+	{
+		return;
+	}
+
 	AddControllerYawInput(InValue);
 }
 
 void AWPlayerCharacter::LookUp(float InValue)
 {
+	if (!bIsAlive)
+	{
+		return;
+	}
+
 	AddControllerPitchInput(InValue);
 }

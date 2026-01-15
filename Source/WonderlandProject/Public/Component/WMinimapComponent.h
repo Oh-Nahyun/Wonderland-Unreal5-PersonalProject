@@ -19,6 +19,9 @@ class WONDERLANDPROJECT_API UWMinimapComponent : public USceneComponent
 
 public:
 	UWMinimapComponent();
+
+	virtual void OnRegister() override;
+
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Minimap)
@@ -30,11 +33,9 @@ public:
 	void InitializeMinimap();
 
 protected:
-	virtual void BeginPlay() override;
+	UPROPERTY(VisibleAnywhere, Category = Minimap)
+	USpringArmComponent* MinimapCameraBoom = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = Minimap)
-	USpringArmComponent* MinimapCameraBoom;
-
-	UPROPERTY(VisibleAnywhere, Category = Minimap)
-	USceneCaptureComponent2D* MinimapCapture;
+	USceneCaptureComponent2D* MinimapCapture = nullptr;
 };

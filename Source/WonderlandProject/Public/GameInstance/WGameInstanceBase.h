@@ -14,5 +14,6 @@ class WONDERLANDPROJECT_API UWGameInstanceBase : public UGameInstance
 public:
 	UWGameInstanceBase();
 
-	// void SaveGame();
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsGameSaved = false;
 };

@@ -29,6 +29,9 @@ protected:
 	virtual void BeginPlay() override;
 	void Die(int32 InSelection);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void EliminateEnemy();
+
 	UPROPERTY(BlueprintReadOnly)
 	EDeathPoseType DeathPose = EDeathPoseType::Alive;
 

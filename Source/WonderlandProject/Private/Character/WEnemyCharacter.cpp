@@ -207,4 +207,6 @@ void AWEnemyCharacter::Die(int32 InSelection)
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	SetLifeSpan(3.f);
+
+	EliminateEnemy();
 }

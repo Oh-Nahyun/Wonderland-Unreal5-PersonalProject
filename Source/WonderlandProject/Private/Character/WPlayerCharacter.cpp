@@ -105,14 +105,13 @@ float AWPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 		Attribute->ReceiveDamage(DamageAmount);
 		PlayerInfoHUD->SetHealthBar(Attribute->GetHealthPercent());
 		bIsAlive = Attribute->IsAlive();
+
+		if (!bIsAlive)
+		{
+			SetAfterPlayerDie();
+		}
 	}
 	return DamageAmount;
-}
-
-void AWPlayerCharacter::SetAfterPlayerDie()
-{
-	// UE_LOG(LogTemp, Warning, TEXT("[Player] Die"));
-	bIsAlive = false;
 }
 
 void AWPlayerCharacter::DecreaseStamina(float InDecreaseStamineAmount)

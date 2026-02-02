@@ -70,7 +70,18 @@ void UWGameInstanceBase::EnsureAllQuestStatesByDT(bool isClearExisting)
 		const int32 Count = GetObjectiveCountFromDT(QuestId);
 		// UE_LOG(LogTemp, Warning, TEXT("QuestId=%s Count=%d"), *QuestId.ToString(), Count);
 		EnsureQuestObjectives(QuestId, Count);
+
+		QuestDeactivationStates.Add(QuestId, false);
+		// UE_LOG(LogTemp, Warning, TEXT("QuestId=%s Bool=%b"), *QuestId.ToString(), QuestDeactivationStates.Find(QuestId);
 	}
+}
+
+/// <summary>
+/// 퀘스트 활성화 여부 변경하는 함수
+/// </summary>
+void UWGameInstanceBase::ChangeDeactivationState(FName QuestId)
+{
+	QuestDeactivationStates.FindOrAdd(QuestId) = true;
 }
 
 /// <summary>

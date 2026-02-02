@@ -28,6 +28,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Quest")
 	TMap<FName, FQuestCompletedState> QuestStates;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Quest")
+	TMap<FName, bool> QuestDeactivationStates;
+
 	UFUNCTION(BlueprintPure, Category = "Quest")
 	TArray<bool> GetStatesById(FName QuestId) const;
 
@@ -39,6 +42,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Quest")
 	void EnsureAllQuestStatesByDT(bool isClearExisting = false);
+
+	UFUNCTION(BlueprintCallable, Category = "Quest")
+	void ChangeDeactivationState(FName QuestId);
 
 private:
 	int32 GetObjectiveCountFromDT(FName QuestId) const;

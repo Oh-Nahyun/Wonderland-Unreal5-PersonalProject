@@ -41,7 +41,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetWeaponCollisionEnabled(ECollisionEnabled::Type InCollisionEnabled);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void SetAfterPlayerDie();
 
 	float GetWeaponSocketSpeed() const;

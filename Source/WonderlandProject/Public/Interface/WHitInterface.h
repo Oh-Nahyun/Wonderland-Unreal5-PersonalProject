@@ -17,6 +17,5 @@ class WONDERLANDPROJECT_API IWHitInterface
 	GENERATED_BODY()
 
 public:
-	//UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	virtual void GetHit(const FVector& ImpactPoint) = 0;
 };

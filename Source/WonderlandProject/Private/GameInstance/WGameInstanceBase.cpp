@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Other/Struct.h"
 #include "GameInstance/WGameInstanceBase.h"
+#include "Other/Struct.h"
 
 UWGameInstanceBase::UWGameInstanceBase()
 {
@@ -68,11 +68,9 @@ void UWGameInstanceBase::EnsureAllQuestStatesByDT(bool isClearExisting)
 	for (const FName& QuestId : RowNames)
 	{
 		const int32 Count = GetObjectiveCountFromDT(QuestId);
-		// UE_LOG(LogTemp, Warning, TEXT("QuestId=%s Count=%d"), *QuestId.ToString(), Count);
 		EnsureQuestObjectives(QuestId, Count);
 
 		QuestDeactivationStates.Add(QuestId, false);
-		// UE_LOG(LogTemp, Warning, TEXT("QuestId=%s Bool=%b"), *QuestId.ToString(), QuestDeactivationStates.Find(QuestId);
 	}
 }
 

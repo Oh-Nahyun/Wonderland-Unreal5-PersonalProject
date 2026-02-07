@@ -30,7 +30,6 @@ void AWEnemyCharacter::BeginPlay()
 
 	if (!Attribute)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Attribute was None! Creating dynamically."));
 		Attribute = NewObject<UWAttributeComponent>(this, UWAttributeComponent::StaticClass(), TEXT("Attributes"));
 		Attribute->RegisterComponent();
 	}
@@ -77,7 +76,7 @@ float AWEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 	return DamageAmount;
 }
 
-void AWEnemyCharacter::GetHit(const FVector& ImpactPoint) // _Implementation
+void AWEnemyCharacter::GetHit(const FVector& ImpactPoint)
 {
 	if (HealthBarWidget)
 	{

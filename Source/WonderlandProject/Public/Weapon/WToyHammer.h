@@ -6,7 +6,7 @@
 #include "Item/WItem.h"
 #include "WToyHammer.generated.h"
 
-class AWPlayerCharacter; //
+class AWPlayerCharacter;
 class UBoxComponent;
 
 UCLASS()

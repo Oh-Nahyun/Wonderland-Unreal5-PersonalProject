@@ -9,7 +9,7 @@
 #include "WPlayerCharacter.generated.h"
 
 class AWItem;
-class AWToyHammer; /////
+class AWToyHammer;
 class UAnimMontage;
 class UWAttributeComponent;
 class UWMinimapComponent;
@@ -68,7 +68,7 @@ protected:
 
 private:
 	AWItem* OverlappingItem;
-	AWToyHammer* EquippedWeapon; /////
+	AWToyHammer* EquippedWeapon;
 	int32 PunchAttackSelection = 0;
 	void PlayAttackMontage(UAnimMontage* InMontage, int32 InSelection);
 

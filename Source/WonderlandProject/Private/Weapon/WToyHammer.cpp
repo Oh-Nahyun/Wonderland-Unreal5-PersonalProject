@@ -76,7 +76,6 @@ void AWToyHammer::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 		IWHitInterface* HitInterface = Cast<IWHitInterface>(BoxHit.GetActor());
 		if (HitInterface)
 		{
-			//////////////
 			float WeaponSpeed = GetWeaponSpeed();
 			float WeaponDamage = BaseDamage + (WeaponSpeed * 0.05f);
 			AWPlayerCharacter* OwnerCharacter = Cast<AWPlayerCharacter>(GetOwner());
@@ -86,13 +85,10 @@ void AWToyHammer::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 				float ForceScale = FMath::Clamp(WeaponSpeed * 5.f, 300.f, 3000.f);
 				BoxHit.GetComponent()->AddImpulse(ForceDirection * ForceScale, NAME_None, true);
 			}
-			//////////////
-			UGameplayStatics::ApplyDamage(BoxHit.GetActor(), WeaponDamage, GetInstigator()->GetController(), this, UDamageType::StaticClass());
-			//////////////
 
+			UGameplayStatics::ApplyDamage(BoxHit.GetActor(), WeaponDamage, GetInstigator()->GetController(), this, UDamageType::StaticClass());
 			HitInterface->GetHit(BoxHit.ImpactPoint);
 		}
-
 		IgnoreActors.AddUnique(BoxHit.GetActor());
 	}
 }

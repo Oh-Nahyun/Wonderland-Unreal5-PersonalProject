@@ -22,7 +22,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent,
 							 class AController* EventInstigator, AActor* DamageCanser) override;
-	virtual void GetHit(const FVector& ImpactPoint) override; // _Implementation
+	virtual void GetHit(const FVector& ImpactPoint) override;
 	void DirectionalHitReact(const FVector& ImpactPoint);
 
 protected:

@@ -31,12 +31,6 @@ void AWItem::Tick(float DeltaTime)
 
 void AWItem::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	/*const FString OtherActorName = FString("Begin Overlap : ") + OtherActor->GetName();
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Red, OtherActorName);
-	}*/
-
 	AWPlayerCharacter* PlayerCharacter = Cast<AWPlayerCharacter>(OtherActor);
 	if (PlayerCharacter)
 	{
@@ -46,12 +40,6 @@ void AWItem::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* O
 
 void AWItem::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	/*const FString OtherActorName = FString("End Overlap : ") + OtherActor->GetName();
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Blue, OtherActorName);
-	}*/
-
 	AWPlayerCharacter* PlayerCharacter = Cast<AWPlayerCharacter>(OtherActor);
 	if (PlayerCharacter)
 	{

@@ -3,7 +3,7 @@
 
 #include "Character/WPlayerCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/PlayerController.h" /////
+#include "GameFramework/PlayerController.h"
 #include "Components/BoxComponent.h"
 #include "Component/WAttributeComponent.h"
 #include "Component/WMinimapComponent.h"
@@ -11,6 +11,8 @@
 #include "Item/WItem.h"
 #include "Weapon/WToyHammer.h"
 #include "Animation/AnimMontage.h"
+#include "Item/WWood.h"
+#include "Item/WMushroom.h"
 
 AWPlayerCharacter::AWPlayerCharacter()
 {
@@ -181,18 +183,25 @@ void AWPlayerCharacter::LeftShiftReleased()
 
 void AWPlayerCharacter::FKeyPressed()
 {
-	if (!bIsAlive)
+	if (!bIsAlive || !OverlappingItem)
 	{
 		return;
 	}
 
-	AWToyHammer* OverlappingWeapon = Cast<AWToyHammer>(OverlappingItem);
-	if (OverlappingItem)
+	if (AWToyHammer* OverlappingWeapon = Cast<AWToyHammer>(OverlappingItem))
 	{
 		OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"), this, this);
 		CharacterState = ECharacterState::EquippedToyHammer;
 		EquippedWeapon = OverlappingWeapon;
 	}
+	else if (AWWood* OverlappingWood = Cast<AWWood>(OverlappingItem))
+	{
+		OverlappingWood->ObtainWood();
+	}
+	else if (AWMushroom* OverlappingMushroom = Cast<AWMushroom>(OverlappingItem))
+	{
+		OverlappingMushroom->ObtainMushroom();
+	}	
 }
 
 void AWPlayerCharacter::MouseLeftButtonPressed()
@@ -228,7 +237,7 @@ void AWPlayerCharacter::EKeyPressed()
 		return;
 	}
 
-	bCanInteraction = true; /////////////////////////
+	bCanInteraction = true;
 }
 
 void AWPlayerCharacter::EKeyReleased()
@@ -238,7 +247,7 @@ void AWPlayerCharacter::EKeyReleased()
 		return;
 	}
 
-	bCanInteraction = false; /////////////////////////
+	bCanInteraction = false;
 }
 
 float AWPlayerCharacter::GetWeaponSocketSpeed() const

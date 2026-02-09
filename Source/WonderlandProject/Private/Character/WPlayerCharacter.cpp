@@ -13,6 +13,7 @@
 #include "Animation/AnimMontage.h"
 #include "Item/WWood.h"
 #include "Item/WMushroom.h"
+#include "Item/WTreasure.h"
 
 AWPlayerCharacter::AWPlayerCharacter()
 {
@@ -202,6 +203,10 @@ void AWPlayerCharacter::FKeyPressed()
 	{
 		OverlappingMushroom->ObtainMushroom();
 	}	
+	else if (AWTreasure* OverlappingTreasure = Cast<AWTreasure>(OverlappingItem))
+	{
+		OverlappingTreasure->ObtainTreasure();
+	}
 }
 
 void AWPlayerCharacter::MouseLeftButtonPressed()
